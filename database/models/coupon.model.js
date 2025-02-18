@@ -1,5 +1,5 @@
-import { number } from "joi";
 import mongoose from "mongoose";
+
 const schema = mongoose.Schema(
   {
     code: {
@@ -9,16 +9,17 @@ const schema = mongoose.Schema(
       trim: true,
     },
     discount: {
-      type: number,
-      min: 0,
+      type: Number,
+      required: true,
+      min: [0, "Discount must be at least 0"],
     },
     expiresAt: {
       type: Date,
       required: true,
     },
   },
-
   { timestamps: true, versionKey: false }
 );
+
 const couponModel = mongoose.model("Coupon", schema);
 export default couponModel;

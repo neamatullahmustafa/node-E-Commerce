@@ -1,11 +1,9 @@
-import express from "express";
-import { dbConnection } from "./database/connection.js";
-import { bootstrap } from "./src/modules/bootstrap.js";
-const app = express();
-const port = 3000;
-app.use(express.json());
-dbConnection();
+import { dbConnection } from "./database/dbConnection.js";
+import { redisConnection } from "./database/redisConnection.js";
+import { server } from "./server.js";
+import cornJob from "./src/utils/cornJop.js";
 
-bootstrap(app);
-app.get("/", (req, res) => res.send("Hello World!"));
-app.listen(port, () => console.log(`ecommerce app listening on port ${port}!`));
+server();
+dbConnection();
+redisConnection();
+cornJob.start();

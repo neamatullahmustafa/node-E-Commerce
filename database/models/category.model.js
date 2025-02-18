@@ -21,9 +21,9 @@ const schema = mongoose.Schema(
       minLength: [3, "description is too short"],
       maxLength: [500, "description is too long"],
     },
-    image: {
+    thumbnail: {
       type: String,
-      //   required: true,
+      required: true,
     },
     status: {
       type: Boolean,
@@ -37,5 +37,8 @@ const schema = mongoose.Schema(
 
   { timestamps: true, versionKey: false }
 );
+schema.post("init", function (doc) {
+  doc.thumbnail = `http://localhost:3000/uploads/${doc.thumbnail}`;
+});
 const categoryModel = mongoose.model("Category", schema);
 export default categoryModel;

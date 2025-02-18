@@ -21,9 +21,9 @@ const schema = mongoose.Schema(
       maxLength: [500, "description is too long"],
       required: true,
     },
-    image: {
+    logo: {
       type: String,
-      //   required: true,
+      required: true,
     },
     status: {
       type: Boolean,
@@ -37,5 +37,8 @@ const schema = mongoose.Schema(
 
   { timestamps: true, versionKey: false }
 );
+schema.post("init", function (doc) {
+  doc.logo = `http://localhost:3000/uploads/${doc.logo}`;
+});
 const brandModel = mongoose.model("Brand", schema);
 export default brandModel;

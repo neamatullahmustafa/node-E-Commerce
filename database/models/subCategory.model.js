@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
+
 const schema = mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
       unique: true,
-      minLength: [3, "name is too short"],
-      maxLength: [50, "name is too long"],
+      minLength: [3, "Name is too short"],
+      maxLength: [50, "Name is too long"],
       trim: true,
     },
     slug: {
@@ -18,14 +19,13 @@ const schema = mongoose.Schema(
     description: {
       type: String,
       required: true,
-      minLength: [3, "description is too short"],
-      maxLength: [500, "description is too long"],
+      minLength: [3, "Description is too short"],
+      maxLength: [500, "Description is too long"],
     },
-    image: {
+    thumbnail: {
       type: String,
-      //   required: true,
+      required: true,
     },
-
     status: {
       type: Boolean,
       default: true,
@@ -33,14 +33,17 @@ const schema = mongoose.Schema(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
+      required: true,
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
   },
-
   { timestamps: true, versionKey: false }
 );
+schema.post("init", function (doc) {
+  doc.thumbnail = `http://localhost:3000/uploads/${doc.thumbnail}`;
+});
 const subCategoryModel = mongoose.model("SubCategory", schema);
 export default subCategoryModel;
